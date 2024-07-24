@@ -22,7 +22,7 @@ class BotReloadHandler(FileSystemEventHandler):
             self.start_script()
 
 if __name__ == "__main__":
-    script = 'swfm.py'  # Ganti dengan nama skrip bot Anda
+    script = 'bot.py'  # Ganti dengan nama skrip bot Anda
     event_handler = BotReloadHandler(script)
     observer = Observer()
     observer.schedule(event_handler, path='.', recursive=True)
