@@ -1,0 +1,10 @@
+# python-telegram-bot
+python-dotenv
+mysql-connector-python
+# pytelegrambotapi
+panda
+logging
+telegram
+watchdog
+python-telegram-bot
+# os
