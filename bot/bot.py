@@ -3,15 +3,19 @@ import os
 import telegram
 # import json
 from dotenv import load_dotenv
-from telegram import Update, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup, Bot
-from telegram.constants import ParseMode
+# from telegram.constants import ParseMode
 # from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ConversationHandler, CallbackContext, MessageHandler, Filters
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, filters, CallbackContext
-from services import req_ticket, timeout, timeout_with_inline
+from telegram import Update, ReplyKeyboardRemove, ReplyKeyboardMarkup,InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler, CallbackQueryHandler
+from config.config import *
+from services import req_ticket, timeout, timeout_with_inline, req_ticket_add
+from services.app_error.index import app_error
+from datetime import datetime
+import string
+import random
 
 load_dotenv()
 
-# Konfigurasi logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -19,76 +23,102 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 TOKEN_BOT = os.getenv('TOKEN_BOT')
-# print(TOKEN_BOT)
-# TOKEN_BOT='7048693889:AAHOk6XHLsrFj5vwShHH7Le1CugmjF7t2V0'
-bot_log = Bot(token=TOKEN_BOT)
+bot_log = telegram.Bot(token=TOKEN_BOT)
 
-
-
-# Definisikan state untuk ConversationHandler
-MENU = range(1)
-MENU_REGISTRATION, REQ_TICKET = range(2)
-
-async def start(update: Update, context: CallbackContext) -> int:
-    user = update.message.from_user
+def start(update: Update, _: CallbackContext) -> None:
+    full_name = update.message.from_user.full_name
+    # username = update.message.from_user.username
+    # chatid_telegram  = update.message.from_user.id 
+    # grup_name = update.message.chat.title
+    print(full_name)
+    # query = update.callback_query
+    # print(query)
+    # query.answer()
     # chatid_telegram = update.message.from_user.id
 
     # Buat inline keyboard
-    keyboard = [
-        [InlineKeyboardButton("Laporan Kendala >>", callback_data=str(REQ_TICKET))],
-        [InlineKeyboardButton("Tim Ahli >>", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Status Laporan (Admin)", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Broadcast Pesan", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Jadikan Admin", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Hapus UserBot", callback_data=str(MENU_REGISTRATION))],[InlineKeyboardButton("Download Laporan Tiket", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("My Ticket List", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Eskalasi Case", callback_data=str(MENU_REGISTRATION))],
-        [InlineKeyboardButton("Kembali", callback_data=str(MENU_REGISTRATION))]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    
-    
+    # keyboard = [
+    #     [InlineKeyboardButton("Laporan Kendala >>", callback_data=str(REQ_TICKET))],
+    #     [InlineKeyboardButton("Tim Ahli >>", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Status Laporan (Admin)", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Broadcast Pesan", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Jadikan Admin", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Hapus UserBot", callback_data=str(MENU_REGISTRATION))],[InlineKeyboardButton("Download Laporan Tiket", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("My Ticket List", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Eskalasi Case", callback_data=str(MENU_REGISTRATION))],
+    #     [InlineKeyboardButton("Kembali", callback_data=str(MENU_REGISTRATION))]
+    # ]
+    # reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Kirim pesan
-    await update.message.reply_chat_action(action=telegram.constants.ChatAction.TYPING)
-    await update.message.reply_text(
-        text=f"Full Name: {user.full_name}\nUsername: {user.username}\nChat ID Telegram: {user.id}",
-        reply_markup=reply_markup
-    )
+    # bot_log.sendChatAction(chat_id=chat_id,action=telegram.ChatAction.TYPING)
+    # query.message.reply_text("Pilih :", reply_markup=reply_markup)
 
-    return MENU
+    # return REPORT_MENU
 
-async def cancel(update: Update, context: CallbackContext) -> int:
+def cancel(update: Update, context: CallbackContext) -> int:
     user = update.message.from_user
-    print(user)
-    await update.message.reply_chat_action(action=telegram.constants.ChatAction.TYPING)
-    await update.message.reply_text(
+    # print(user)
+    update.message.reply_chat_action(action=telegram.constants.ChatAction.TYPING)
+    update.message.reply_text(
         text=f"data User {user}",
         reply_markup=ReplyKeyboardRemove(),
         # parse_mode=ParseMode.MARKDOWN
     )
     return ConversationHandler.END
 
+def end(udpate: Update, context: CallbackContext)-> None:
+    user = Update.message.from_user
+    now = datetime.now()
+    date_time = now.strftime("%d-%B-%Y, %H:%M:%S WIB")
+    keterangan = update.message.text.replace(',',' ').replace(', ',' ').replace("'","").replace('"',"")
+    
+    # Create Ticket 
+    char = list(string.digits)
+    length = 10
+    random.shuffle(char)
+    password = []
+    for i in range(length):
+        password.append(random.choice(char))
+    random.shuffle(password)
+    
+    ticket = f"IOM{password}"
+    update.message.reply_chat_action(action=telegram.constants.ChatAction.TYPING)
+    Update.message.reply_text(f"TICKET: {ticket}")
+    button1 = InlineKeyboardButton("» Klik, join & diskusi", url=telegram_channel)
+            # button2 = InlineKeyboardButton("Expert : Rosady" , url=username_expert)
+    buttons = [[button1]]
+    keyboard = InlineKeyboardMarkup(buttons)
+    update.message.reply_text(f'⬇️ Klik dan Join Room dibawah ini untuk lacak tiket anda : *{ticket}*',parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=keyboard)
+
 def main() -> None:
-    application = Application.builder().token(TOKEN_BOT).build()
+    updater = Updater(TOKEN_BOT)
+    dispatcher = updater.dispatcher 
+    # application = Application.builder().token(TOKEN_BOT).build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
-                MENU: [
+                REPORT_MENU: [
                     CallbackQueryHandler(req_ticket, pattern='^' + str(REQ_TICKET) + '$'),
-                    CallbackQueryHandler(timeout_with_inline)
+                    CallbackQueryHandler(app_error, pattern='^' + str(REQ_APP_ERROR) + '$'),
+                    CallbackQueryHandler(req_ticket_add, pattern='^' + str(REQ_TICKET_ADD) + '$'),
+                    # CallbackQueryHandler(timeout_with_inline)
                 ],
-            ConversationHandler.TIMEOUT: [MessageHandler(filters.TEXT | filters.COMMAND, timeout)]
+                END: [MessageHandler(Filters.text & Filters.command, end)],
+                ConversationHandler.TIMEOUT: [
+                    MessageHandler(Filters.text | Filters.command, timeout),
+                    CallbackQueryHandler(timeout_with_inline)
+                ]
             },
         fallbacks=[CommandHandler('cancel', cancel), CommandHandler('batal', cancel)],
         conversation_timeout=os.getenv('TIMEOUT')
     )
     
-    application.add_handler(conv_handler)
+    dispatcher.add_handler(conv_handler)
     
-    application.run_polling()
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == '__main__':
     main()
