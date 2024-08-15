@@ -30,3 +30,4 @@ def get_current_data_helpdesk(id):
     finally:
         if connection:
             connection.close()
+            
