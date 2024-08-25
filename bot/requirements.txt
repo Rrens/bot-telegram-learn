@@ -3,7 +3,7 @@ python-dotenv
 mysql-connector-python
 # pytelegrambotapi
 panda
-logging
+# logging
 telegram
 watchdog
 # python-telegram-bot

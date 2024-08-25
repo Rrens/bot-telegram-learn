@@ -10769,6 +10769,7 @@ def main() -> None:
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT9_2) + '$'),
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT10_1) + '$'),
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT10_2) + '$'),
+            # INI
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT12_1) + '$'),
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT12_2) + '$'),
             CallbackQueryHandler(ioms_reqticket_add1, pattern='^' + str(IOMS_CAT12_3) + '$'),
