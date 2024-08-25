@@ -10,6 +10,7 @@ from services.report_problem import report_problem, request_ticket, request_tick
 from datetime import datetime
 import string
 import random
+from database.db import get_current_data_helpdesk, get_check_admin_or_not
 from utils.helper import edit_message, delete_message
 
 load_dotenv()
@@ -24,25 +25,44 @@ TOKEN_BOT = os.getenv('TOKEN_BOT')
 bot_log = telegram.Bot(token=TOKEN_BOT)
 
 def start(update: Update, _: CallbackContext) -> None:
-    full_name = update.message.from_user.full_name
-    
-    keyboard = [
-        [InlineKeyboardButton("Laporan Kendala >>", callback_data=str(REPORT_PROBLEM))],
-        [InlineKeyboardButton("Tim Ahli >>", callback_data=str(PROFESSIONAL_TEAM))],
-        [InlineKeyboardButton("Status Laporan (Admin) >>", callback_data=str(REPORT_STATUS))],
-        [InlineKeyboardButton("Broadcast Pesan >>", callback_data=str(MESSAGE_BROADCAST))],
-        [InlineKeyboardButton("Jadikan Admin >>", callback_data=str(MAKE_ADMIN))],
-        [InlineKeyboardButton("Hapus UserBot >>", callback_data=str(DELETE_USER))],
-        [InlineKeyboardButton("Download Laporan Tiket >>", callback_data=str(DOWNLOAD_REPORT_TICKET))],
-        [InlineKeyboardButton("My Ticket List >>", callback_data=str(TICKET_LIST))],
-        [InlineKeyboardButton("Eskalasi Case >>", callback_data=str(CASE_ESCALATION))],
-    ]
-    
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_chat_action(action=telegram.ChatAction.TYPING)
-    update.message.reply_text('Halo {}! Selamat datang di bot kami. Silakan gunakan perintah yang tersedia.'.format(full_name), reply_markup=reply_markup)
-    
-    return MENU
+    try:
+        user = update.message.from_user
+        full_name = user.full_name
+        chatid_telegram = user.id 
+        data = get_current_data_helpdesk(chatid_telegram)
+        if data:
+            check_admin = get_check_admin_or_not(chatid_telegram)
+            position = check_admin == 'admin'
+            if position is True:
+                keyboard = [
+                    [InlineKeyboardButton("Laporan Kendala >>", callback_data=str(REPORT_PROBLEM))],
+                    [InlineKeyboardButton("Tim Ahli >>", callback_data=str(PROFESSIONAL_TEAM))],
+                    [InlineKeyboardButton("Status Laporan (Admin) >>", callback_data=str(REPORT_STATUS))],
+                    [InlineKeyboardButton("Broadcast Pesan >>", callback_data=str(MESSAGE_BROADCAST))],
+                    [InlineKeyboardButton("Jadikan Admin >>", callback_data=str(MAKE_ADMIN))],
+                    [InlineKeyboardButton("Hapus UserBot >>", callback_data=str(DELETE_USER))],
+                    [InlineKeyboardButton("Download Laporan Tiket >>", callback_data=str(DOWNLOAD_REPORT_TICKET))],
+                    [InlineKeyboardButton("My Ticket List >>", callback_data=str(TICKET_LIST))],
+                    [InlineKeyboardButton("Eskalasi Case >>", callback_data=str(CASE_ESCALATION))],
+                ]
+            else:
+                keyboard = [
+                    [InlineKeyboardButton("Laporan Kendala >>", callback_data=str(REPORT_PROBLEM))],
+                    [InlineKeyboardButton("Status Laporan >>", callback_data=str(REPORT_STATUS))],
+                    [InlineKeyboardButton("My Ticket List >>", callback_data=str(TICKET_LIST))],
+                    [InlineKeyboardButton("Eskalasi Case >>", callback_data=str(CASE_ESCALATION))],
+                ]
+            
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            update.message.reply_chat_action(action=telegram.ChatAction.TYPING)
+            update.message.reply_text('Halo {}! Selamat datang di bot kami. Silakan gunakan perintah yang tersedia.'.format(full_name), reply_markup=reply_markup)
+            
+            return MENU
+        else:
+            update.message.reply_text(f"Mohon registrasi Menu IOMS terlebih dahulu. Klik /start",parse_mode=telegram.ParseMode.MARKDOWN)
+        
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def main_menu(update: Update, _: CallbackContext) -> None:

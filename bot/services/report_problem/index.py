@@ -5,6 +5,7 @@ import os
 import json
 from config.config import *
 from utils.helper import edit_message, delete_message
+from database.db import alter_problem_title, get_problem_title
 
 def report_problem(update: Update, context: CallbackContext) -> None:
     try:
@@ -41,23 +42,21 @@ def report_problem(update: Update, context: CallbackContext) -> None:
 
 def request_ticket(update: Update, _: CallbackContext) -> None:
     try:
-        print('INI LAGI')
         query = update.callback_query
+        chatid_telegram = query.from_user.id
         select_data = query.data
         data = "{}".format(query.message.reply_markup).replace("'",'"').replace("[[","[").replace("]]","]").replace("], [",",")
         data = json.loads(data)
-        # print(data)
         for data in data['inline_keyboard']:
             if data['callback_data'] == select_data:
                 data_text = str(data['text']).replace(" >>","")
-        chat_id = update.callback_query.message.chat_id
-        message_id_1 = update.callback_query.message.message_id-1
+        alter_problem_title(data_text, chatid_telegram)
+        chat_id = query.message.chat_id
+        message_id_1 = query.message.message_id-1
         delete_message(chat_id, message_id_1)
         edit_message(query, data_text)
-        print(f"--------- Request Ticket {data_text}")
         
         if 'Aplication Error' in data_text:
-            print('ini')
             keyboard = [
                 [InlineKeyboardButton("Loading after Login (Loading Setelah Login)", callback_data=str(REQUEST_TICKET_END_APP_ERR_1))],
                 [InlineKeyboardButton("Log out Yourself (Logout Sendiri)", callback_data=str(REQUEST_TICKET_END_APP_ERR_2))],
@@ -250,6 +249,7 @@ def request_ticket(update: Update, _: CallbackContext) -> None:
 
 def request_ticket_end(update: Update, _: CallbackContext) -> None:
     query = update.callback_query
+    chatid_telegram = query.from_user.id
     select_data = query.data
     data = "{}".format(query.message.reply_markup).replace("'",'"').replace("[[","[").replace("]]","]").replace("], [",",")
     data = json.loads(data)
@@ -257,6 +257,8 @@ def request_ticket_end(update: Update, _: CallbackContext) -> None:
     for data in data['inline_keyboard']:
         if data['callback_data'] == select_data:
             data_text = str(data['text']).replace(" >>","")
+    problem_title = get_problem_title(chatid_telegram) + ' ➞ ' + data_text
+    alter_problem_title(problem_title, chatid_telegram)
     chat_id = query.message.chat_id
     message_id = query.message.message_id - 1
     delete_message(chat_id, message_id)
