@@ -1,0 +1,12 @@
+# python-telegram-bot
+python-dotenv
+mysql-connector-python
+# pytelegrambotapi
+pandas
+# logging
+telegram
+watchdog
+# python-telegram-bot
+python-telegram-bot==13.13
+openpyxl
+# os
