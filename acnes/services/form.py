@@ -99,8 +99,10 @@ def handle_upload_form(update: Update, context: CallbackContext) -> None:
         # Process the file based on its format (XLSX or CSV)
         if document.file_name.endswith('.xlsx'):
             data = pd.read_excel(file_path, engine="openpyxl")
+            data = data.iloc[1:].reset_index(drop=True)
             update.message.reply_text(f"File XLSX berhasil dibaca! Jumlah baris: {data.shape[0]}")
-            update.message.reply_text(f"Contoh data:\n{data.head().to_string()}")
+            # update.message.reply_text(f"Contoh data:\n{data.head().to_string()}")
+            print(data.shape)
         elif document.file_name.endswith('.csv'):
             data = pd.read_csv(file_path)
             update.message.reply_text(f"File CSV berhasil dibaca! Jumlah baris: {data.shape[0]}")
