@@ -15,19 +15,19 @@ def report_problem(update: Update, context: CallbackContext) -> None:
         edit_message(query, "LAPORAN KENDALA")
         
         keyboard = [
-            [InlineKeyboardButton("Aplication Error >>", callback_data=str(CREATE_TICKET))],
+            [InlineKeyboardButton("Application Error >>", callback_data=str(CREATE_TICKET))],
             [InlineKeyboardButton("Acceptance >>", callback_data=str(ACCEPTANCE))],
             [InlineKeyboardButton("Budget >>", callback_data=str(BUDGET))],
             [InlineKeyboardButton("Deployment >>", callback_data=str(DEPLOYMENT))],
             [InlineKeyboardButton("Issue Partial Baut >>", callback_data=str(ISSUE_PARTIAL_BAUT))],
             [InlineKeyboardButton("Process >>", callback_data=str(PROCESS))],
-            [InlineKeyboardButton("Download Laporan Tiket", callback_data=str(PROFESSIONAL_TEAM))],
             [InlineKeyboardButton("Login >>", callback_data=str(LOGIN))],
             [InlineKeyboardButton("Dashboard >>", callback_data=str(DASHBOARD))],
             [InlineKeyboardButton("Tasklist >>", callback_data=str(TASKLIST))],
             [InlineKeyboardButton("Planning >>", callback_data=str(PLANNING))],
             [InlineKeyboardButton("Knowledge >>", callback_data=str(KNOWLEDGE))],
-            [InlineKeyboardButton("eligibility Check >>", callback_data=str(ELIGIBILITY_CHECK))],
+            [InlineKeyboardButton("Eligibility Check >>", callback_data=str(ELIGIBILITY_CHECK))],
+            # [InlineKeyboardButton("TANYA PROSES ?", callback_data=str(ASK_PROCESS))],
             [InlineKeyboardButton("Kembali", callback_data=str(MAIN_MENU))]
         ]
         
@@ -38,8 +38,6 @@ def report_problem(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         print(f"Error: {e}")
         
-    # return MENU_REPORT
-
 def request_ticket(update: Update, _: CallbackContext) -> None:
     try:
         query = update.callback_query
@@ -56,7 +54,7 @@ def request_ticket(update: Update, _: CallbackContext) -> None:
         delete_message(chat_id, message_id_1)
         edit_message(query, data_text)
         
-        if 'Aplication Error' in data_text:
+        if 'Application Error' in data_text:
             keyboard = [
                 [InlineKeyboardButton("Loading after Login (Loading Setelah Login)", callback_data=str(REQUEST_TICKET_END_APP_ERR_1))],
                 [InlineKeyboardButton("Log out Yourself (Logout Sendiri)", callback_data=str(REQUEST_TICKET_END_APP_ERR_2))],
@@ -68,28 +66,28 @@ def request_ticket(update: Update, _: CallbackContext) -> None:
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Acceptance' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Add Case (Semua Kasus Tambah) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Cancel Case (Semua Kasus Batal) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Change Case (Semua Kasus Perubahan) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Document Case (Semua Kasus Dokumen) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Case (Semua Kasus Kesalahan) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Generate Case (Semua Kasus Generate) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Requests Case (Semua Kasus Permintaan) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Submit & Resubmit Case (Semua Kasus Kirim & Kirim Ulang) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Update Case (Semua Kasus Update) >>", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Approval RFI (Persetujuan RFI)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("BOQ List Empty (Daftar BOQ Kosong)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Database Timeout Query (Kueri Batas Waktu Database)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Duplicate SOWID (Duplikat SOWID)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Fallback Status eOA (Status Penggantian eOA)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Guideline (Pedoman)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Propose Milestone (Usulkan Tonggak Pencapaian)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request OA (Permintaan OA)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Reviewer User (Pengguna Peninjau)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Signature Blank (Tanda Tangan Kosong)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Sync NEID (Sinkronkan NEID)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Add Case (Semua Kasus Tambah) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_1)],
+                [InlineKeyboardButton("Cancel Case (Semua Kasus Batal) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_2)],
+                [InlineKeyboardButton("Change Case (Semua Kasus Perubahan) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_3)],
+                [InlineKeyboardButton("Document Case (Semua Kasus Dokumen) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_4)],
+                [InlineKeyboardButton("Error Case (Semua Kasus Kesalahan) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_5)],
+                [InlineKeyboardButton("Generate Case (Semua Kasus Generate) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_6)],
+                [InlineKeyboardButton("Requests Case (Semua Kasus Permintaan) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_7)],
+                [InlineKeyboardButton("Submit & Resubmit Case (Semua Kasus Kirim & Kirim Ulang) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_8)],
+                [InlineKeyboardButton("Update Case (Semua Kasus Update) >>", callback_data=REQUEST_TICKET_END_ACCEPTANCE_9)],
+                [InlineKeyboardButton("Approval RFI (Persetujuan RFI)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_10)],
+                [InlineKeyboardButton("BOQ List Empty (Daftar BOQ Kosong)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_11)],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_12)],
+                [InlineKeyboardButton("Database Timeout Query (Kueri Batas Waktu Database)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_13)],
+                [InlineKeyboardButton("Duplicate SOWID (Duplikat SOWID)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_14)],
+                [InlineKeyboardButton("Fallback Status eOA (Status Penggantian eOA)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_15)],
+                [InlineKeyboardButton("Guideline (Pedoman)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_16)],
+                [InlineKeyboardButton("Propose Milestone (Usulkan Tonggak Pencapaian)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_17)],
+                [InlineKeyboardButton("Request OA (Permintaan OA)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_18)],
+                [InlineKeyboardButton("Reviewer User (Pengguna Peninjau)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_19)],
+                [InlineKeyboardButton("Signature Blank (Tanda Tangan Kosong)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_20)],
+                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=REQUEST_TICKET_END_ACCEPTANCE_21)],
+                [InlineKeyboardButton("Sync NEID (Sinkronkan NEID)", callback_data=str(REQUEST_TICKET_END_ACCEPTANCE_22))],
                 # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
                 
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
@@ -99,113 +97,113 @@ def request_ticket(update: Update, _: CallbackContext) -> None:
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Deployment' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Add Menu (Tambah Menu)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Data (Kesalahan Data)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Download Data (Kesalahan Unduh Data)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Export Data (Kesalahan Ekspor Data)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Login (Kesalahan Gabung)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Menu (Kesalahan Menu)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request Delete Milestone (Permintaan Hapus Tonggak Pencapaian)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request New Menu (Permintaan Menu Baru)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Add Menu (Tambah Menu)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_1))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_2))],
+                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_3))],
+                [InlineKeyboardButton("Error Data (Kesalahan Data)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_4))],
+                [InlineKeyboardButton("Error Download Data (Kesalahan Unduh Data)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_5))],
+                [InlineKeyboardButton("Error Export Data (Kesalahan Ekspor Data)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_6))],
+                [InlineKeyboardButton("Error Login (Kesalahan Gabung)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_7))],
+                [InlineKeyboardButton("Error Menu (Kesalahan Menu)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_8))],
+                [InlineKeyboardButton("Request Delete Milestone (Permintaan Hapus Tonggak Pencapaian)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_9))],
+                [InlineKeyboardButton("Request New Menu (Permintaan Menu Baru)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_10))],
+                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_11))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_DEPLOYMENT_12))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Process' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request Mapping SOWID (Permintaan Pemetaan SOWID)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_PROCESS_1))],
+                [InlineKeyboardButton("Request Mapping SOWID (Permintaan Pemetaan SOWID)", callback_data=str(REQUEST_TICKET_END_PROCESS_2))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_PROCESS_3))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Issue Partial Baut' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Request Milestone (Permintaan Tonggak Pencapaian)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Request Milestone (Permintaan Tonggak Pencapaian)", callback_data=str(REQUEST_TICKET_END_ISSUE_PARTIAL_1))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_ISSUE_PARTIAL_2))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Login' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Add User (Tambah User)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Cant Login (Tidak Dapat Gabung)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Add User (Tambah User)", callback_data=str(REQUEST_TICKET_END_LOGIN_1))],
+                [InlineKeyboardButton("Cant Login (Tidak Dapat Gabung)", callback_data=str(REQUEST_TICKET_END_LOGIN_2))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_LOGIN_3))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Dashboard' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Duplicate Site (Situs Duplikat)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Duplicate SOWID (Duplikat SOWID)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request New Menu (Permintaan Menu Baru)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_1))],
+                [InlineKeyboardButton("Duplicate Site (Situs Duplikat)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_2))],
+                [InlineKeyboardButton("Duplicate SOWID (Duplikat SOWID)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_3))],
+                [InlineKeyboardButton("Request New Menu (Permintaan Menu Baru)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_4))],
+                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_5))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_DASHBOARD_6))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Tasklist' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Duplicate eLV (Duplikat eLV)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Duplicate eOA (Duplikat eOA)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Duplicate ATP (Kesalahan Duplikat ATP)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Error Menu (Kesalahan Menu)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_TASKLIST_1))],
+                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(REQUEST_TICKET_END_TASKLIST_2))],
+                [InlineKeyboardButton("Duplicate eLV (Duplikat eLV)", callback_data=str(REQUEST_TICKET_END_TASKLIST_3))],
+                [InlineKeyboardButton("Duplicate eOA (Duplikat eOA)", callback_data=str(REQUEST_TICKET_END_TASKLIST_4))],
+                [InlineKeyboardButton("Error Duplicate ATP (Kesalahan Duplikat ATP)", callback_data=str(REQUEST_TICKET_END_TASKLIST_5))],
+                [InlineKeyboardButton("Error Menu (Kesalahan Menu)", callback_data=str(REQUEST_TICKET_END_TASKLIST_6))],
+                [InlineKeyboardButton("Status Workflow (Alur Kerja Status)", callback_data=str(REQUEST_TICKET_END_TASKLIST_7))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_TASKLIST_8))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Planning' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request Delete eMOM (Permintaan Hapus eMOM)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request Delete Site List (Permintaan Hapus Daftar Situs)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Request Take Out eKKST (Permintaan Hapus eKKST)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Update Data (Perbaharui Data)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Update Menu (Perbaharui Manu)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Update NE ID (Perbaharui NE ID)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_PLANNING_1))],
+                [InlineKeyboardButton("Document Workflow (Alur Kerja Dokumen)", callback_data=str(REQUEST_TICKET_END_PLANNING_2))],
+                [InlineKeyboardButton("Request Delete eMOM (Permintaan Hapus eMOM)", callback_data=str(REQUEST_TICKET_END_PLANNING_3))],
+                [InlineKeyboardButton("Request Delete Site List (Permintaan Hapus Daftar Situs)", callback_data=str(REQUEST_TICKET_END_PLANNING_4))],
+                [InlineKeyboardButton("Request Take Out eKKST (Permintaan Hapus eKKST)", callback_data=str(REQUEST_TICKET_END_PLANNING_5))],
+                [InlineKeyboardButton("Update Data (Perbaharui Data)", callback_data=str(REQUEST_TICKET_END_PLANNING_6))],
+                [InlineKeyboardButton("Update Menu (Perbaharui Manu)", callback_data=str(REQUEST_TICKET_END_PLANNING_7))],
+                [InlineKeyboardButton("Update NE ID (Perbaharui NE ID)", callback_data=str(REQUEST_TICKET_END_PLANNING_8))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_PLANNING_9))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Knowledge' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Update Menu (Perbaharui Menu)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Update Menu (Perbaharui Menu)", callback_data=str(REQUEST_TICKET_END_KNOWLEDGE_1))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_KNOWLEDGE_2))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Eligibility Check' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Data Not Synchrone (Data Tidak Sinkron)", callback_data=str(REQUEST_TICKET_END_ELIGIBILITY_1))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_ELIGIBILITY_2))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.message.reply_text("Pilih :",reply_markup=reply_markup)
         elif 'Budget' in data_text:
             keyboard = [
-                [InlineKeyboardButton("Capex Balance (Saldo Belanja Modal)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Justification (Pembenaran)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("FBP (KBR/KPAA) (FBP (KBR/KPAA))", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Corsec (Corsec)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Reporting (Laporan)", callback_data=str(MAIN_MENU))],
-                [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(MAIN_MENU))],
+                [InlineKeyboardButton("Capex Balance (Saldo Belanja Modal)", callback_data=str(REQUEST_TICKET_END_BUDGET_1))],
+                [InlineKeyboardButton("Justification (Pembenaran)", callback_data=str(REQUEST_TICKET_END_BUDGET_2))],
+                [InlineKeyboardButton("FBP (KBR/KPAA) (FBP (KBR/KPAA))", callback_data=str(REQUEST_TICKET_END_BUDGET_3))],
+                [InlineKeyboardButton("Corsec (Corsec)", callback_data=str(REQUEST_TICKET_END_BUDGET_4))],
+                [InlineKeyboardButton("Reporting (Laporan)", callback_data=str(REQUEST_TICKET_END_BUDGET_5))],
+                # [InlineKeyboardButton("Other Problems (Lainnya)", callback_data=str(REQUEST_TICKET_END_BUDGET_6))],
                 [InlineKeyboardButton("Kembali", callback_data=str(REPORT_PROBLEM))],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -261,7 +259,7 @@ def request_ticket_end(update: Update, _: CallbackContext) -> None:
     alter_problem_title(problem_title, chatid_telegram)
     chat_id = query.message.chat_id
     message_id = query.message.message_id - 1
-    delete_message(chat_id, message_id)
+    # delete_message(chat_id, message_id)
     edit_message(query, data_text)
     print(f"--------- Request End {data_text}")
     try:

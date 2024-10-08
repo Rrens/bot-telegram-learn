@@ -1,8 +1,9 @@
 # python-telegram-bot
 python-dotenv
 mysql-connector-python
+clickhouse_connect
 # pytelegrambotapi
-panda
+pandas
 # logging
 telegram
 watchdog

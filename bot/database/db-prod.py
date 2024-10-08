@@ -1,17 +1,13 @@
-import mysql.connector
-from mysql.connector import Error
-from config.config import db_config
+import clickhouse_connect
+import pandas as pd
 
 def create_connection():
-    connection = None
     try:
-        connection = mysql.connector.connect(**db_config)
-        if connection.is_connected():
-            print("Connected to MySQL database")
-    except Error as e:
-        print(f"Error connecting to MySQL: {e}")
-    finally:
-        return connection
+        client = clickhouse_connect.get_client(database="production",host='10.54.18.55', port=8123, username='app_aam_dashboard', password='AAMDashboard#2024')
+        return client
+    except Exception as e:
+        print(f"Error connecting to ClickHouse: {e}")
+        return None
 
 def get_current_data_helpdesk(id):
     try:
