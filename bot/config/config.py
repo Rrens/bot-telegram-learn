@@ -127,8 +127,10 @@ db_config = {
     REQUEST_TICKET_END_ELIGIBILITY_2,
     EXPERT_TEAM,
     REG_EXPERT,
-    DEL_EXPERT
-) = range(109)
+    DEL_EXPERT,
+    END_EXPERT,
+    END_DEL_EXPERT
+) = range(111)
 
 __all__ = [name for name in globals() if not name.startswith('_') and name != 'db_config'] + ['db_config', 'TOKEN_BOT']
 # __all__ = [name for name in globals() if not name.startswith('_')]

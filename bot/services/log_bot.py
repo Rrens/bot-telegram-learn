@@ -11,7 +11,7 @@ bot_log = telegram.Bot(token=TOKEN_BOT)
 chatid_app = '-1002137089074'
 
 def log_bot(update: Update):
-    data = get_expert('ioms')
+    data = get_expert()
     chatid_telegram  = update.message.from_user.id 
     current_app = 'IOMS'
     current_path = os.getcwd()
@@ -378,4 +378,17 @@ def log_bot_success(update: Update, message):
             bot_log.send_message(chat_id=chatid_app,text=f'🟠 *[#LOG_SUKSES_IOMS_SCARLETT]* pesan dari [{full_name}]({username}) dengan pesan {message}',parse_mode=telegram.ParseMode.MARKDOWN, disable_web_page_preview=True)
     except Exception as e:
         print(f"ERROR: {e}")  
+        
+def log_bot_success_inline(update: Update, message):
+    username = 'https://t.me/{}'.format(update.message.from_user.username)
+    full_name = update.message.from_user.full_name
+    grup_name = update.message.chat.title
+    print(full_name)
+    if grup_name:
+        bot_log.sendChatAction(chat_id=chatid_app,action=telegram.ChatAction.TYPING)
+        bot_log.send_message(chat_id=chatid_app,text=f'🟢 *[#LOG_SUKSES_IOMS_SCARLETT]* pesan dari [{full_name}]({username}) dengan pesan {message}',parse_mode=telegram.ParseMode.MARKDOWN, disable_web_page_preview=True)
+    elif not grup_name:
+        bot_log.sendChatAction(chat_id=chatid_app,action=telegram.ChatAction.TYPING)
+        bot_log.send_message(chat_id=chatid_app,text=f'🟢 *[#LOG_SUKSES_IOMS_SCARLETT]* pesan dari [{full_name}]({username}) dengan pesan {message}',parse_mode=telegram.ParseMode.MARKDOWN, disable_web_page_preview=True)
+    
     

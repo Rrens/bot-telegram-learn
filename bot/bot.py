@@ -7,7 +7,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from config.config import *
 from services import timeout, timeout_with_inline
 from services.report_problem import report_problem, request_ticket, request_ticket_end
-from services.expert_team import expert_team
+from services.expert_team import expert_team, reg_expert, end_reg_expert, end_del_reg_expert
 from datetime import datetime
 from services.log_bot import log_bot, log_bot_success
 import string
@@ -138,7 +138,7 @@ def end(update: Update, _: CallbackContext) -> None:
         
         print(f"TIKET STATUS {ticket_status}")
         
-        check_count = get_count_ioms('ioms')
+        check_count = get_count_ioms()
         print(f"CEK IOMS {check_count}")
         check_count = check_count == 0
         if check_count is True:
@@ -154,7 +154,7 @@ def end(update: Update, _: CallbackContext) -> None:
         else:
             # print('cek 2')
             expert = []
-            data = get_expert('ioms')
+            data = get_expert()
             expert.append(data)
             expert = str(expert).replace('[','').replace(']','').replace("'",'').split('\\n')
             expert = expert[0]
@@ -236,7 +236,7 @@ def main() -> None:
                 CallbackQueryHandler(request_ticket, pattern='^' + str(DEPLOYMENT) + '$'),
                 CallbackQueryHandler(request_ticket, pattern='^' + str(ISSUE_PARTIAL_BAUT) + '$'),
                 CallbackQueryHandler(request_ticket, pattern='^' + str(PROCESS) + '$'),
-                CallbackQueryHandler(request_ticket, pattern='^' + str(PROFESSIONAL_TEAM) + '$'),
+                CallbackQueryHandler(expert_team, pattern='^' + str(PROFESSIONAL_TEAM) + '$'),
                 CallbackQueryHandler(request_ticket, pattern='^' + str(LOGIN) + '$'),
                 CallbackQueryHandler(request_ticket, pattern='^' + str(DASHBOARD) + '$'),
                 CallbackQueryHandler(request_ticket, pattern='^' + str(TASKLIST) + '$'),
@@ -349,9 +349,11 @@ def main() -> None:
                 
                 # # # Expert Team
                 CallbackQueryHandler(expert_team, pattern='^' + str(EXPERT_TEAM) + '$'),
-                CallbackQueryHandler(request_ticket_end, pattern='^' + str(REG_EXPERT) + '$'),
-                CallbackQueryHandler(request_ticket_end, pattern='^' + str(DEL_EXPERT) + '$'),
+                CallbackQueryHandler(reg_expert, pattern='^' + str(REG_EXPERT) + '$'),
+                # CallbackQueryHandler(end_reg_expert, pattern='^' + str(END_EXPERT) + '$'),
             ],
+            END_EXPERT: [MessageHandler(Filters.text & ~Filters.command, end_reg_expert)],
+            END_DEL_EXPERT: [MessageHandler(Filters.text & ~Filters.command, end_del_reg_expert)],
             END: [MessageHandler(Filters.text & ~Filters.command, end)],
             # MENU_REPORT: [
             #     CallbackQueryHandler(main_menu, pattern='^' + str(MAIN_MENU) + '$'),

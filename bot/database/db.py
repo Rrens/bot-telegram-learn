@@ -88,17 +88,17 @@ def get_problem_title(id):
         if connection:
             connection.close()
             
-def get_count_ioms(app):
+def get_count_ioms():
     try:
         connection = create_connection()
         if connection is None:
             return None
         
         cursor = connection.cursor(dictionary=True)
-        query = f"select count(*) as `count` from helpdesk_expert where application_name = '{app}'"
+        query = f"select count(*) as `count` from helpdesk_expert where application_name = 'IOMS'"
         cursor.execute(query)
-        print(f'QUERY GET COUNT {app}')
         result = cursor.fetchone()
+        print(f'QUERY GET COUNT IOMS')
         return result['count']
     except Error as e:
         print(f"Error: {e}")
@@ -107,16 +107,35 @@ def get_count_ioms(app):
         if connection:
             connection.close()
             
-def get_expert(app):
+def get_expert():
     try:
         connection = create_connection()
         if connection is None:
             return None
         
         cursor = connection.cursor(dictionary=True)
-        query = f"select expert from helpdesk_expert where application_name = '{app}'"
+        query = f"select expert from helpdesk_expert where application_name = 'IOMS'"
         cursor.execute(query)
-        print(f'QUERY GET EXPERT {app}')
+        print(f'QUERY GET EXPERT IOMS')
+        result = cursor.fetchone()
+        return result
+    except Error as e:
+        print(f"Error: {e}")
+        return None
+    finally:
+        if connection:
+            connection.close()
+            
+def get_count_expert_ioms(expert):
+    try:
+        connection = create_connection()
+        if connection is None:
+            return None
+        
+        cursor = connection.cursor(dictionary=True)
+        query = f"select count(*) as `count` from production.helpdesk_expert where application_name = 'IOMS' AND expert = '{expert}'"
+        cursor.execute(query)
+        print(f'QUERY GET COUNT EXPERT IOMS')
         result = cursor.fetchone()
         return result
     except Error as e:
@@ -176,6 +195,28 @@ def insert_helpdesk_report(data):
         cursor.execute(query)
         connection.commit()
         return True
+    except Error as e:
+        print(f"Error: {e}")
+        return None
+    finally:
+        if connection:
+            connection.close()
+            
+def insert_helpdesk_expert(expert):
+    try:
+        connection = create_connection()
+        if connection is None:
+            return None
+        
+        
+        cursor = connection.cursor(dictionary=True)
+        query = f"INSERT INTO helpdesk_expert select 'IOMS', '{expert}'"
+        print(query)
+        cursor.execute(query)
+        print('QUERY INSERT HELPDESK EXPERT')
+        connection.commit()
+        return True
+        
     except Error as e:
         print(f"Error: {e}")
         return None

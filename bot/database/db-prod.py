@@ -84,16 +84,16 @@ def get_problem_title(id):
         if connection:
             connection.close()
             
-def get_count_ioms(app):
+def get_count_ioms():
     try:
         connection = create_connection()
         if connection is None:
             return None
         
         cursor = connection.cursor(dictionary=True)
-        query = f"select count(*) as `count` from helpdesk_expert where application_name = '{app}'"
+        query = f"select count(*) as `count` from helpdesk_expert where application_name = 'IOMS'"
         cursor.execute(query)
-        print(f'QUERY GET COUNT {app}')
+        print(f'QUERY GET COUNT IOMS')
         result = cursor.fetchone()
         return result['count']
     except Error as e:
